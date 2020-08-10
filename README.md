@@ -36,8 +36,8 @@ in CMD just run Process.py:
 
 ### Beta Mean PSD
 
-![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/Beta_mean_psd_in_db.png)
+![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/beta_mean_psd_in_db.png)
 
 ### Alpha Mean PSD
 
-![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/Alpha_mean_psd_in_db.png)
+![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/alpha_mean_psd_in_db.png)
