@@ -26,5 +26,18 @@ in CMD just run Process.py:
 
 ## OUTPUT's
 
+### Mean PSD
 
-![ACF](https://github.com/yeganeyazdanian/Extract-Child-Signal/blob/master/Exports/Figure_1.png)
+![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/Mean_psd_in_three_stage.png)
+
+### Theta Mean PSD
+
+![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/Theta_mean_psd_in_db.png)
+
+### Beta Mean PSD
+
+![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/Beta_mean_psd_in_db.png)
+
+### Alpha Mean PSD
+
+![ACF](https://github.com/yeganeyazdanian/PSD-EEG/blob/master/Exports/Alpha_mean_psd_in_db.png)
