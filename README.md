@@ -22,7 +22,9 @@ step 2: install all requirements modules :
 
 in CMD just run Process.py:
 
-> python Process.py
+> python Fig3.py
+
+> python Fig4.py
 
 ## OUTPUT's
 
