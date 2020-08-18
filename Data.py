@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import openpyxl as exc
 from scipy.signal import iirfilter, welch, lfilter
 import math
+import mne
 import re
 
 
@@ -46,14 +48,41 @@ def Implement_Notch_Filter(fs, band, freq, ripple, order, filter_type, data):
     return filtered_data
 
 
+# get data from edf file
+
+
+def Get_EDF_data():
+    f = mne.io.read_raw_edf("Bae_1.edf")
+
+    n = f.get_data()
+    n2 = np.reshape(n, (169088, 40))
+    data = Implement_Notch_Filter(256, 2, 50, 5, 2, 'butter', n2)
+    return data
+
+# get data from xlsx file to numpy array
+
+
+def Get_xlsx_data(row_start, row_end, column1, column2, column3):
+
+    # imported xlsx data
+    wb = exc.load_workbook('fnirs-tums.xlsx')
+    sheet = wb['Export 1']
+    x = np.zeros((row_end-row_start, 3))
+    for i in range(0, row_end-row_start):
+        x[i, 0] = sheet.cell(i+row_start, column1).value
+        x[i, 1] = sheet.cell(i+row_start, column2).value
+        x[i, 2] = sheet.cell(i+row_start, column3).value
+    return x
+
 # get datat from txt file
 
 
-def Get_txt_data(filename):
-    file = open(filename+".txt", "r")
+def Get_txt_data(fp):
+    _fp = open(fp+".txt", "r")
     nps = re.split("\t|\n", _fp.read())
+    nps.pop()
     nps = nps[0:149000]
-    file.close()
+    _fp.close()
 
     m = np.zeros((len(nps)))
     for i in range(0, len(nps)):
@@ -86,8 +115,8 @@ def GetABT(freqs, psd_db):
     return data
 
 
-def Convert_To_PSD(data):
-    freqs, psd = welch(data[0:], 256, nperseg=1024)
+def FP(fb):
+    freqs, psd = welch(fb[0:], 256, nperseg=1024)
     # freqs, psd = welch(fb[i, 0:], 256, nperseg=1024)
     return (freqs, psd)
 
@@ -139,6 +168,10 @@ def Fin_Means():
                            "p2": {"alpha": [], "beta": [], "theta": []},
                            "p3": {"alpha": [], "beta": [], "theta": []},
                            "p4": {"alpha": [], "beta": [], "theta": []}}
+
+        percents =        {"fp1": {"alpha": [], "beta": [], "theta": []},
+                           "fp2": {"alpha": [], "beta": [], "theta": []},
+                           "fpz": {"alpha": [], "beta": [], "theta": []}}
         # this loop goes through every fp in stage (ex index0 = fp1,fp2,fpz for stage Timed)
         for j in stage_list.items():
             fp, fp_stage = j
@@ -147,7 +180,7 @@ def Fin_Means():
                 clear()
                 print("in process: [{}]".format(k))
                 fb = Get_txt_data(k)
-                freqs, psd = Convert_To_PSD(fb)
+                freqs, psd = FP(fb)
                 psd_db_fp = PSDtoDB(psd)
                 theta_fp, beta_fp, alpha_fp = GetABT(freqs, psd_db_fp)
                 alphaM = Means(alpha_fp)
@@ -172,13 +205,56 @@ def Fin_Means():
                     patient_chanels["p4"]["alpha"].append(alphaM)
                     patient_chanels["p4"]["beta"].append(betaM)
                     patient_chanels["p4"]["theta"].append(thetaM)
+                
+                if fp == "fp1":
+                    percents["fp1"]["alpha"].append(alphaM)
+                    percents["fp1"]["beta"].append(betaM)
+                    percents["fp1"]["theta"].append(thetaM)
+                if fp == "fp2":
+                    percents["fp2"]["alpha"].append(alphaM)
+                    percents["fp2"]["beta"].append(betaM)
+                    percents["fp2"]["theta"].append(thetaM)
+                if fp == "fpz":
+                    percents["fpz"]["alpha"].append(alphaM)
+                    percents["fpz"]["beta"].append(betaM)
+                    percents["fpz"]["theta"].append(thetaM)
+
         for i in patient_chanels:
             for j in patient_chanels[i]:
                 patient_chanels[i][j] = abs(
                     int(np.mean(patient_chanels[i][j])))
+
+        for i in percents:
+            for j in percents[i]:
+                percents[i][j] = abs(
+                    np.mean(percents[i][j]))
         means[stage] = {"patients": patient_chanels,
+                        "percents": percents,
                         "means": [abs(int(Mean(alpha_means))),
                                   abs(int(Mean(beta_means))),
                                   abs(int(Mean(theta_means)))]}
     return means
 
+
+""" fb = Get_txt_data("patient_1_fp1_T", "patient_1_fp2_T", "patient_1_fpz_T")
+x = np.arange(len(fb[0:, 0]))
+
+freqs1, psd1 = FP(fb, 0)
+freqs2, psd2 = FP(fb, 1)
+freqsz, psdz = FP(fb, 2)
+
+
+psd_db_fp1 = PSDtoDB(psd1)
+psd_db_fp2 = PSDtoDB(psd2)
+psd_db_fpz = PSDtoDB(psdz)
+
+theta_fp1, beta_fp1, alpha_fp1 = GetABT(freqs1, psd_db_fp1)
+theta_fp2, beta_fp2, alpha_fp2 = GetABT(freqs2, psd_db_fp2)
+theta_fpz, beta_fpz, alpha_fpz = GetABT(freqsz, psd_db_fpz)
+
+
+psd_db_Mean = PSD_db_Means(psd_db_fp1, psd_db_fp2, psd_db_fpz)
+alpha_db_Mean = Means(alpha_fp1, alpha_fp2, alpha_fpz)
+beta_db_Mean = Means(beta_fp1, beta_fp2, beta_fpz)
+theta_db_Mean = Means(theta_fp1, theta_fp2, theta_fpz)
+print(psd_db_Mean) """
