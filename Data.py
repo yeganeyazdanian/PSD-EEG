@@ -50,10 +50,10 @@ def Implement_Notch_Filter(fs, band, freq, ripple, order, filter_type, data):
 
 
 def Get_txt_data(filename):
-    _fp = open(filename+".txt", "r")
+    file = open(filename+".txt", "r")
     nps = re.split("\t|\n", _fp.read())
     nps = nps[0:149000]
-    _fp.close()
+    file.close()
 
     m = np.zeros((len(nps)))
     for i in range(0, len(nps)):
