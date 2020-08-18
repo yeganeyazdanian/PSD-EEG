@@ -182,26 +182,3 @@ def Fin_Means():
                                   abs(int(Mean(theta_means)))]}
     return means
 
-
-""" fb = Get_txt_data("patient_1_fp1_T", "patient_1_fp2_T", "patient_1_fpz_T")
-x = np.arange(len(fb[0:, 0]))
-
-freqs1, psd1 = FP(fb, 0)
-freqs2, psd2 = FP(fb, 1)
-freqsz, psdz = FP(fb, 2)
-
-
-psd_db_fp1 = PSDtoDB(psd1)
-psd_db_fp2 = PSDtoDB(psd2)
-psd_db_fpz = PSDtoDB(psdz)
-
-theta_fp1, beta_fp1, alpha_fp1 = GetABT(freqs1, psd_db_fp1)
-theta_fp2, beta_fp2, alpha_fp2 = GetABT(freqs2, psd_db_fp2)
-theta_fpz, beta_fpz, alpha_fpz = GetABT(freqsz, psd_db_fpz)
-
-
-psd_db_Mean = PSD_db_Means(psd_db_fp1, psd_db_fp2, psd_db_fpz)
-alpha_db_Mean = Means(alpha_fp1, alpha_fp2, alpha_fpz)
-beta_db_Mean = Means(beta_fp1, beta_fp2, beta_fpz)
-theta_db_Mean = Means(theta_fp1, theta_fp2, theta_fpz)
-print(psd_db_Mean) """
