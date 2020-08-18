@@ -49,8 +49,8 @@ def Implement_Notch_Filter(fs, band, freq, ripple, order, filter_type, data):
 # get datat from txt file
 
 
-def Get_txt_data(fp):
-    _fp = open(fp+".txt", "r")
+def Get_txt_data(filename):
+    _fp = open(filename+".txt", "r")
     nps = re.split("\t|\n", _fp.read())
     nps = nps[0:149000]
     _fp.close()
@@ -86,8 +86,8 @@ def GetABT(freqs, psd_db):
     return data
 
 
-def FP(fb):
-    freqs, psd = welch(fb[0:], 256, nperseg=1024)
+def FP(data):
+    freqs, psd = welch(data[0:], 256, nperseg=1024)
     # freqs, psd = welch(fb[i, 0:], 256, nperseg=1024)
     return (freqs, psd)
 
