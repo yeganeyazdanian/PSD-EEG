@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import openpyxl as exc
 from scipy.signal import iirfilter, welch, lfilter
 import math
 import mne
@@ -47,32 +46,6 @@ def Implement_Notch_Filter(fs, band, freq, ripple, order, filter_type, data):
     filtered_data = lfilter(b, a, data)
     return filtered_data
 
-
-# get data from edf file
-
-
-def Get_EDF_data():
-    f = mne.io.read_raw_edf("Bae_1.edf")
-
-    n = f.get_data()
-    n2 = np.reshape(n, (169088, 40))
-    data = Implement_Notch_Filter(256, 2, 50, 5, 2, 'butter', n2)
-    return data
-
-# get data from xlsx file to numpy array
-
-
-def Get_xlsx_data(row_start, row_end, column1, column2, column3):
-
-    # imported xlsx data
-    wb = exc.load_workbook('fnirs-tums.xlsx')
-    sheet = wb['Export 1']
-    x = np.zeros((row_end-row_start, 3))
-    for i in range(0, row_end-row_start):
-        x[i, 0] = sheet.cell(i+row_start, column1).value
-        x[i, 1] = sheet.cell(i+row_start, column2).value
-        x[i, 2] = sheet.cell(i+row_start, column3).value
-    return x
 
 # get datat from txt file
 
