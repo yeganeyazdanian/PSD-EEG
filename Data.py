@@ -86,7 +86,7 @@ def GetABT(freqs, psd_db):
     return data
 
 
-def FP(data):
+def Convert_To_PSD(data):
     freqs, psd = welch(data[0:], 256, nperseg=1024)
     # freqs, psd = welch(fb[i, 0:], 256, nperseg=1024)
     return (freqs, psd)
@@ -148,7 +148,7 @@ def Fin_Means():
                 clear()
                 print("in process: [{}]".format(k))
                 fb = Get_txt_data(k)
-                freqs, psd = FP(fb)
+                freqs, psd = Convert_To_PSD(fb)
                 psd_db_fp = PSDtoDB(psd)
                 theta_fp, beta_fp, alpha_fp = GetABT(freqs, psd_db_fp)
                 alphaM = Means(alpha_fp)
