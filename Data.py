@@ -59,7 +59,8 @@ def Get_txt_data(fp):
     m = np.zeros((len(nps)))
     for i in range(0, len(nps)):
         m[i] = float(nps[i])
-    return m
+    data = Implement_Notch_Filter(256, 2, 50, 5, 2, 'butter', m)
+    return data
 
 
 def GetABT(freqs, psd_db):
