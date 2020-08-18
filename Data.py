@@ -142,7 +142,6 @@ def Fin_Means():
         # this loop goes through every fp in stage (ex index0 = fp1,fp2,fpz for stage Timed)
         for j in stage_list.items():
             fp, fp_stage = j
-            fp += "mamad"
             # this loop goes through every patient in every fp in stage
             for k in fp_stage:
                 clear()
