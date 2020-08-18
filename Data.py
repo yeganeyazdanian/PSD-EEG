@@ -65,21 +65,21 @@ def GetABT(freqs, psd_db):
     TStart = np.argwhere(freqs == 4)
     TEnd = np.argwhere(freqs == 8)
     freqT = freqs[TStart[0, 0]:TEnd[0, 0]]
-    psd_db_T = psd_db[TStart[0, 0]:TEnd[0, 0]]
+    psd_T = psd_db[TStart[0, 0]:TEnd[0, 0]]
 
     AStart = np.argwhere(freqs == 8)
     AEnd = np.argwhere(freqs == 16)
     freqA = freqs[AStart[0, 0]:AEnd[0, 0]]
-    psd_db_A = psd_db[AStart[0, 0]:AEnd[0, 0]]
+    psd_A = psd_db[AStart[0, 0]:AEnd[0, 0]]
 
     BStart = np.argwhere(freqs == 16)
     BEnd = np.argwhere(freqs == 31)
     freqB = freqs[BStart[0, 0]:BEnd[0, 0]]
-    psd_db_B = psd_db[BStart[0, 0]:BEnd[0, 0]]
+    psd_B = psd_db[BStart[0, 0]:BEnd[0, 0]]
 
-    Theta = np.array([psd_db_T, freqT])
-    Beta = np.array([psd_db_B, freqB])
-    Alpha = np.array([psd_db_A, freqA])
+    Theta = np.array([psd_T, freqT])
+    Beta = np.array([psd_B, freqB])
+    Alpha = np.array([psd_A, freqA])
 
     data = (Theta, Beta, Alpha)
 
